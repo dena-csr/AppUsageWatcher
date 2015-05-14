@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    android:background="@drawable/background_timer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <TextView
+      android:textColor="@color/Black"
+      android:gravity="center"
+      android:id="@+id/text_timer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+  <TextView
+      android:textSize="10.0sp"
+      android:textColor="@color/Black"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="1.0dip"
+      android:text="@string/second" />
+</LinearLayout>

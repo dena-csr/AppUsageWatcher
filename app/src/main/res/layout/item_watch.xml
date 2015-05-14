@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    android:padding="2dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <RelativeLayout
+      android:id="@+id/relative_item_main"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent">
+    <ImageView
+        android:id="@+id/image_appicon"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop"
+        android:cropToPadding="true"
+        android:layout_alignParentLeft="true" />
+    <TextView
+        android:id="@+id/text_appname"
+        android:padding="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/image_appicon" style="@style/shadowStyle" />
+    <TextView
+        android:id="@+id/text_appsec"
+        android:padding="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_below="@+id/text_appname"
+        android:layout_alignLeft="@+id/text_appname"
+        android:layout_alignBottom="@+id/image_appicon" style="@style/shadowStyle" />
+    <ImageView
+        android:id="@+id/image_timer_on"
+        android:layout_marginRight="16dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:visibility="visible"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_action_important"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+    <ImageView
+        android:id="@+id/image_timer_off"
+        android:layout_marginRight="16dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:visibility="gone"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_action_not_important"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#1F000000"/>
+  </RelativeLayout>
+</LinearLayout>

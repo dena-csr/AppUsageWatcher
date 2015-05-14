@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">AppUsageWatcher</string>
+    <string name="title_section1">Usage</string>
+    <string name="title_section2">Total usage</string>
+    <string name="title_section3">Hidden apps</string>
+    <string name="title_about">About this app</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_switch">Switch</string>
+    <string name="action_start">Start</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+    <string name="notify_watching">Watching your usage...</string>
+
+    <string name="label_info">Notify at</string>
+    <string name="label_warning">Warning at</string>
+    <string name="label_finish">Finish at</string>
+
+    <string name="preference_sound_title">Sound</string>
+    <string name="preference_sound_summary">Enable sound</string>
+    <string name="preference_vibration_title">Vibration</string>
+    <string name="preference_vibration_summary">Enable vibration</string>
+
+    <string name="about">"This app is ..."</string>
+    <string name="alert_info">"You used \"%1$s\" %2$d minutes."</string>
+    <string name="alert_warning">"You used \"%1$s\" %2$d minutes. Warning!"</string>
+    <string name="alert_finish">"You used \"%1$s\" %2$d minutes. Finish!"</string>
+    <string name="hidden_apps">Hidden apps</string>
+    <string name="hide_this_app">Hide this app</string>
+    <string name="launch_this_app">Launch this app</string>
+    <string name="minute">min</string>
+    <string name="second">sec</string>
+    <string name="negative">No</string>
+    <string name="please_allow_access_history">"Please let me access the history of the apps usage."</string>
+    <string name="positive">Yes</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset_usage_limit">Reset maximum usage limit</string>
+    <string name="set_usage_limit">Set maximum usage limit</string>
+    <string name="settings">Settings</string>
+    <string name="show_app_again">Show this app again?</string>
+    <string name="pull_down_to_refresh">Pull down to refresh...</string>
+
+    <string name="package_name_all">All</string>
+    <string name="package_name_unknown">Unknown</string>
+</resources>

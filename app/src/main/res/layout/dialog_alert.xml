@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@drawable/background_alert"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <TextView
+      android:textSize="16.0sp"
+      android:textColor="@color/Black"
+      android:id="@+id/textAlert"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:singleLine="false" />
+  <ImageView
+      android:id="@+id/imageInfo"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="visible"
+      android:src="@drawable/alert_info" />
+  <ImageView
+      android:id="@+id/imageWarning"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      android:src="@drawable/alert_warning" />
+  <ImageView
+      android:id="@+id/imageFinish"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      android:src="@drawable/alert_finish" />
+  <Button
+      android:id="@+id/buttonDismiss"
+      android:layout_gravity="center_horizontal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/ok" />
+</LinearLayout>

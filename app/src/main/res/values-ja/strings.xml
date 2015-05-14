@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppUsageWatcher</string>
+    <string name="title_section1">今日の使用状況</string>
+    <string name="title_section2">累積の使用状況</string>
+    <string name="title_section3">非表示アプリ</string>
+    <string name="title_about">このアプリについて</string>
+    <string name="navigation_drawer_open">開</string>
+    <string name="navigation_drawer_close">閉</string>
+    <string name="action_switch">スイッチ</string>
+    <string name="action_start">スタート</string>
+    <string name="action_stop">ストップ</string>
+    <string name="action_settings">設定</string>
+    <string name="action_about">このアプリについて</string>
+    <string name="notify_watching">使用時間を計測中...</string>
+
+    <string name="label_info">注意報:</string>
+    <string name="label_warning">警報:</string>
+    <string name="label_finish">特別警報:</string>
+
+    <string name="preference_sound_title">通知音</string>
+    <string name="preference_sound_summary">有効にする</string>
+    <string name="preference_vibration_title">バイブ</string>
+    <string name="preference_vibration_summary">有効にする</string>
+
+    <string name="about">"このアプリは。。。"</string>
+    <string name="alert_info">"\"%1$s\"の使用時間が%2$d分をこえたよ! 使いすぎに気をつけよう!"</string>
+    <string name="alert_warning">"\"%1$s\"の使用時間が%2$d分をこえたよ! 使いすぎだよ!"</string>
+    <string name="alert_finish">"\"%1$s\"の使用時間が%2$d分をこえたよ! もう今日は終わり!"</string>
+    <string name="hidden_apps">非表示アプリ</string>
+    <string name="hide_this_app">このアプリを表示しない</string>
+    <string name="launch_this_app">このアプリを起動する</string>
+    <string name="minute">分</string>
+    <string name="second">秒</string>
+    <string name="negative">いいえ</string>
+    <string name="please_allow_access_history">使用履歴へのアクセスを許可してください。</string>
+    <string name="positive">はい</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+    <string name="reset_usage_limit">使用制限を解除する</string>
+    <string name="set_usage_limit">使用制限をかける</string>
+    <string name="settings">設定</string>
+    <string name="show_app_again">表示しますか？</string>
+    <string name="pull_down_to_refresh">下にスワイプで更新</string>
+
+    <string name="package_name_all">全体</string>
+    <string name="package_name_unknown">不明</string>
+</resources>

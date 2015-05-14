@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <ImageView
+      android:id="@+id/image_appIcon"
+      android:layout_width="wrap_content"
+      android:layout_height="fill_parent"
+      android:scaleType="centerCrop"
+      android:cropToPadding="true"
+      android:layout_alignParentLeft="true" />
+    <TextView
+        android:id="@+id/text_packageName"
+        android:padding="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/image_appIcon"
+        style="@style/shadowStyle" />
+    <TextView
+        android:id="@+id/text_appName"
+        android:textSize="20.0sp"
+        android:padding="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_below="@+id/text_appname"
+        android:layout_alignLeft="@+id/text_packageName"
+        android:layout_alignBottom="@+id/image_appIcon"
+        style="@style/shadowStyle" />
+</RelativeLayout>
