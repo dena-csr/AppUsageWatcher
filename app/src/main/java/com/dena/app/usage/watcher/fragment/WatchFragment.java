@@ -251,7 +251,7 @@ public class WatchFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             holder.mTextAppName.setText(item.getAppName());
             holder.mTextAppSec.setText(item.getSecString());
             int timerInfo = mDB.getTimerInfo(item.getPackageName());
-            int timerWarning = mDB.getTimerInfo(item.getPackageName());
+            int timerWarning = mDB.getTimerWarning(item.getPackageName());
             int timerFinish = mDB.getTimerFinish(item.getPackageName());
             if (0 < timerInfo + timerWarning + timerFinish) {
                 holder.mImageTimerOn.setVisibility(View.VISIBLE);
