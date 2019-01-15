@@ -24,13 +24,14 @@
 
 package com.dena.app.usage.watcher.service;
 
-import android.app.Service;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -41,13 +42,24 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.dena.app.usage.watcher.model.WatchDatabase;
 import com.dena.app.usage.watcher.util.WatchUtil;
 import com.dena.app.usage.watcher.R;
 
-public class AlertService extends Service {
+public class AlertService extends BaseService {
 
     public AlertService() {
+    }
+
+    public String getNotificationChannelId() {
+        return "channel_id_alert";
+    }
+    public String getNotificationChannelName() {
+        return getString(R.string.channel_alert);
+    }
+    public String getNotificationMessage() {
+        return getString(R.string.notify_alerting);
     }
 
     public IBinder onBind(Intent intent) {
@@ -59,7 +71,7 @@ public class AlertService extends Service {
         Log.d(TAG, "onCreate");
         mView = LayoutInflater.from(this).inflate(R.layout.dialog_alert, null);
         mParams = new WindowManager.LayoutParams(-2, -2,
-                                                 WindowManager.LayoutParams.TYPE_PHONE,
+                                                 getLayoutParamsType(),
                                                  WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                                                  PixelFormat.TRANSLUCENT);
         mParams.dimAmount = 0.8F;
@@ -77,12 +89,17 @@ public class AlertService extends Service {
         mPlayer.release();
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     private void startTimerService(String packageName, int timerLevel, int minute) {
         Intent intent = new Intent(getApplicationContext(), TimerService.class);
         intent.putExtra(TimerService.PACKAGE_NAME, packageName);
         intent.putExtra(TimerService.TIMER_LEVEL, timerLevel);
         intent.putExtra(TimerService.MINUTE, minute);
-        startService(intent);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            startService(intent);
+        } else {
+            startForegroundService(intent);
+        }
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {

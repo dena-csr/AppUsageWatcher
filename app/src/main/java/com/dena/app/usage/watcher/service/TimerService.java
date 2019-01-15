@@ -24,7 +24,6 @@
 
 package com.dena.app.usage.watcher.service;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -42,11 +41,21 @@ import com.dena.app.usage.watcher.R;
 import com.dena.app.usage.watcher.model.WatchDatabase;
 import com.dena.app.usage.watcher.util.WatchUtil;
 
-public class TimerService extends Service implements View.OnTouchListener {
+public class TimerService extends BaseService implements View.OnTouchListener {
 
     public TimerService() {
         mHandler = new Handler();
         mRemained = 0;
+    }
+
+    public String getNotificationChannelId() {
+        return "channel_id_timer";
+    }
+    public String getNotificationChannelName() {
+        return getString(R.string.channel_timer);
+    }
+    public String getNotificationMessage() {
+        return getString(R.string.notify_timer);
     }
 
     public IBinder onBind(Intent intent) {
@@ -59,11 +68,8 @@ public class TimerService extends Service implements View.OnTouchListener {
         mView = LayoutInflater.from(this).inflate(R.layout.dialog_timer, null);
         mView.setOnTouchListener(this);
         mParams = new WindowManager.LayoutParams(-2, -2,
-                                                 WindowManager.LayoutParams.TYPE_PHONE,
-                                                 (WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE |
-                                                  WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
-                                                  WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
-                                                  WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE),
+                                                 getLayoutParamsType(),
+                                                 getLayoutParamsFlag(),
                                                  PixelFormat.TRANSLUCENT);
         mWindowManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
         mWindowManager.addView(mView, mParams);
@@ -107,6 +113,13 @@ public class TimerService extends Service implements View.OnTouchListener {
         return START_NOT_STICKY;
     }
 
+    private int getLayoutParamsFlag() {
+        return (WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE |
+                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+    }
+
     public boolean onTouch(View view, MotionEvent motionEvent) {
         int x = (int)motionEvent.getRawX();
         int y = (int)motionEvent.getRawY();
@@ -117,11 +130,8 @@ public class TimerService extends Service implements View.OnTouchListener {
             mCurrentX -= dx;
             mCurrentY -= dy;
             mParams = new WindowManager.LayoutParams(-2, -2, mCurrentX, mCurrentY,
-                                                     WindowManager.LayoutParams.TYPE_PHONE,
-                                                     (WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE |
-                                                      WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
-                                                      WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
-                                                      WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE),
+                                                     getLayoutParamsType(),
+                                                     getLayoutParamsFlag(),
                                                      PixelFormat.TRANSLUCENT);
             mOffsetX = x;
             mOffsetY = y;

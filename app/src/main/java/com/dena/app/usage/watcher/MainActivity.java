@@ -24,17 +24,23 @@
 
 package com.dena.app.usage.watcher;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.media.AudioManager;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SwitchCompat;
 import android.view.KeyEvent;
@@ -53,7 +59,7 @@ import com.dena.app.usage.watcher.service.WatchService;
 import com.dena.app.usage.watcher.util.WatchUtil;
 
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, CompoundButton.OnCheckedChangeListener {
 
     private Handler mHandler;
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -107,6 +113,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onStart() {
         super.onStart();
         mHandler.postDelayed(new Runnable() {
+            @Override
             public void run() {
                 endSplash();
                 mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
@@ -196,10 +203,34 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            startService(new Intent(getApplicationContext(), WatchService.class));
+            startWatchService(true, true);
         } else {
-            stopService(new Intent(getApplicationContext(), WatchService.class));
+            stopWatchService();
         }
+    }
+
+    private Intent createWatchServiceIntent() {
+        return new Intent(getApplicationContext(), WatchService.class);
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private boolean startWatchService(boolean shouldAskUsageStat, boolean shouldAskOverlay) {
+        if (!checkPermissionUsageStat(shouldAskUsageStat) || !checkPermissionOverlay(shouldAskOverlay)) {
+            mSwitchCompat.setChecked(false);
+            return false;
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            startService(createWatchServiceIntent());
+        } else {
+            startForegroundService(createWatchServiceIntent());
+        }
+        mSwitchCompat.setChecked(true);
+        return true;
+    }
+
+    private void stopWatchService() {
+        stopService(createWatchServiceIntent());
+        mSwitchCompat.setChecked(false);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent evt) {
@@ -217,4 +248,94 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
         return super.onKeyDown(keyCode, evt);
     }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        switch (requestCode) {
+        case REQUEST_USAGE_STAT:
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startWatchService(false, true);
+                }
+            }, 100L);
+            break;
+        case REQUEST_OVERLAY:
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startWatchService(true, false);
+                }
+            }, 500L);
+            break;
+        default:
+            break;
+        }
+    }
+
+    private static final int REQUEST_USAGE_STAT = 100;
+    private static final int REQUEST_OVERLAY = 101;
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean checkPermissionUsageStat(boolean shouldAsk) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return true;
+        }
+        if (WatchUtil.canAccessUsageStat(this)) {
+            return true;
+        }
+        if (!shouldAsk) {
+            return false;
+        }
+        AlertDialog dialog = new AlertDialog.Builder(this)
+            .setTitle(R.string.permission)
+            .setMessage(R.string.rationale_permission_usage_stat).create();
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", (DialogInterface.OnClickListener)null);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                try {
+                    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                    startActivityForResult(intent, REQUEST_USAGE_STAT);
+                } catch (Throwable t) {
+                    onActivityResult(REQUEST_USAGE_STAT, RESULT_CANCELED, null);
+                }
+            }
+        });
+        dialog.show();
+        return false;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private boolean checkPermissionOverlay(boolean shouldAsk) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        if (Settings.canDrawOverlays(this)) {
+            return true;
+        }
+        if (!shouldAsk) {
+            return false;
+        }
+        AlertDialog dialog = new AlertDialog.Builder(this)
+            .setTitle(R.string.permission)
+            .setMessage(R.string.rationale_permission_overlay).create();
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", (DialogInterface.OnClickListener)null);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                try {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivityForResult(intent, REQUEST_OVERLAY);
+                } catch (Throwable t) {
+                    onActivityResult(REQUEST_OVERLAY, RESULT_CANCELED, null);
+                }
+            }
+        });
+        dialog.show();
+        return false;
+    }
+
 }

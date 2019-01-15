@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 27
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.dena.app.usage.watcher"
         minSdkVersion 15
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 28
+        versionCode 2
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -20,27 +20,29 @@ android {
             versionNameSuffix 'd'
         }
     }
+    flavorDimensions "custom"
     productFlavors {
         template {
+            dimension "custom"
             applicationId "com.dena.app.usage.watcher.template"
         }
         momotaro {
+            dimension "custom"
             applicationId "com.dena.app.usage.watcher.momotaro"
         }
     }
     applicationVariants.all { variant ->
-        if (!variant.buildType.name.equals("debug")) {
-            variant.outputs.each { output ->
-                if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
-                    def date = new java.text.SimpleDateFormat("-yyyyMMdd-HHmmss").format(new Date())
-                    output.outputFile = new File(output.outputFile.name.replace(".apk", "${date}.apk"))
-                }
+        variant.outputs.all { output ->
+            if (variant.buildType.name.equals("release")) {
+                def date = new java.text.SimpleDateFormat("yyyyMMdd").format(new Date())
+                outputFileName = "AppUsageWatcher-${variant.flavorName}-${date}.apk"
             }
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }

@@ -13,6 +13,11 @@
     <string name="action_settings">設定</string>
     <string name="action_about">このアプリについて</string>
     <string name="notify_watching">使用時間を計測中...</string>
+    <string name="notify_alerting">使用時間を注意中...</string>
+    <string name="notify_timer">使用時間を計測中...</string>
+    <string name="channel_watch">計測</string>
+    <string name="channel_alert">注意</string>
+    <string name="channel_timer">タイマー</string>
 
     <string name="label_info">注意報:</string>
     <string name="label_warning">警報:</string>
@@ -42,6 +47,9 @@
     <string name="settings">設定</string>
     <string name="show_app_again">表示しますか？</string>
     <string name="pull_down_to_refresh">下にスワイプで更新</string>
+    <string name="permission">権限</string>
+    <string name="rationale_permission_usage_stat">このアプリは、他アプリの使用時間を計測するために、使用履歴にアクセスできる権限が必要です。次の設定画面で、このアプリが使用履歴にアクセスできるように設定してください。</string>
+    <string name="rationale_permission_overlay">このアプリは、設定した使用時間を越えたときに通知するため、他のアプリ上に重ねて表示できる権限が必要です。次の設定画面で、このアプリが他のアプリ上に重ねて表示できるように設定してください。</string>
 
     <string name="package_name_all">全体</string>
     <string name="package_name_unknown">不明</string>

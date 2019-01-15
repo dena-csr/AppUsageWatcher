@@ -24,11 +24,13 @@
 
 package com.dena.app.usage.watcher.model;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.database.sqlite.SQLiteDatabase;
@@ -107,6 +109,7 @@ public class WatchDatabase extends SQLiteOpenHelper {
         return sec;
     }
     
+    @TargetApi(Build.VERSION_CODES.O)
     private void startAlertService(Class alertServiceClass, String packageName, int timerLevel, int lastMinute, int nextMinute) {
         if (!WatchUtil.isRunningService(mContext, alertServiceClass.getName())) {
             Intent intent = new Intent(mContext.getApplicationContext(), alertServiceClass);
@@ -114,7 +117,11 @@ public class WatchDatabase extends SQLiteOpenHelper {
             intent.putExtra(AlertService.TIMER_LEVEL, timerLevel);
             intent.putExtra(AlertService.LAST_MINUTE, lastMinute);
             intent.putExtra(AlertService.NEXT_MINUTE, nextMinute);
-            mContext.startService(intent);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                mContext.startService(intent);
+            } else {
+                mContext.startForegroundService(intent);
+            }
         }
     }
     private void stopAlertService(Class alertServiceClass) {

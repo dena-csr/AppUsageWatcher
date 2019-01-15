@@ -24,18 +24,26 @@
 
 package com.dena.app.usage.watcher.receiver;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.dena.app.usage.watcher.service.WatchService;
 
 public class SystemEventReceiver extends BroadcastReceiver {
 
+    @TargetApi(Build.VERSION_CODES.O)
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) ||
             intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
-            context.startService(new Intent(context.getApplicationContext(), WatchService.class));
+            Intent watch = new Intent(context.getApplicationContext(), WatchService.class);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                context.startService(watch);
+            } else {
+                context.startForegroundService(watch);
+            }
         }
     }
 }

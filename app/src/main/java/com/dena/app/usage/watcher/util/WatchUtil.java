@@ -26,10 +26,13 @@ package com.dena.app.usage.watcher.util;
 
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
+import android.app.AppOpsManager;
 import android.app.KeyguardManager;
 import android.app.usage.UsageEvents;
+import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -40,6 +43,7 @@ import android.os.Build;
 import android.os.PowerManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.dena.app.usage.watcher.R;
@@ -161,6 +165,21 @@ public class WatchUtil {
         KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         if (null != km && km.inKeyguardRestrictedInputMode()) {
             return true;
+        }
+        return false;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static boolean canAccessUsageStat(Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return true;
+        }
+        try {
+            String packageName = context.getPackageName();
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            return AppOpsManager.MODE_ALLOWED == appOpsManager.checkOp(AppOpsManager.OPSTR_GET_USAGE_STATS, packageInfo.applicationInfo.uid, packageName);
+        } catch (Throwable t) {
         }
         return false;
     }
